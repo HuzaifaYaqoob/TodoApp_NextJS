@@ -12,8 +12,8 @@ export const InputField = ({className , ...props}) =>{
 
 export const Button = ({className , ...props}) =>{
     return(
-        <button className={`rounded py-2 px-3 my-2 text-white ${className}`} {...props}>
-            Login
+        <button className={`rounded py-1 px-2 my-2 text-white ${className}`} {...props}>
+            {props.text}
         </button>
     )
 }
