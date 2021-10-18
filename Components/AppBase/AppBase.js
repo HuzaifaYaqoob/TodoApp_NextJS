@@ -3,7 +3,7 @@ import Header from "../Header/Header"
 
 const AppBase = (props) =>{
     return(
-        <main className='min-h-screen' style={{backgroundColor:'#e5e5e5'}}>
+        <main className='min-h-screen flex flex-col' style={{backgroundColor:'#e5e5e5'}}>
             <Header/>
             {props.children}
         </main>

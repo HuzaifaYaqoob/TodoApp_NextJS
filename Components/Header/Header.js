@@ -5,7 +5,6 @@ import Image from 'next/image'
 
 
 const Anchor = ({text , className, nextPath , ...otherProps}) => {
-
     return (
         <li>
             <Link href={nextPath}>
