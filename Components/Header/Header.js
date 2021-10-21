@@ -1,10 +1,14 @@
 
+import { useSelector, useDispatch } from 'react-redux'
+import { makeLogout } from '../../redux/features/UserSlice'
 
 import Link from 'next/link'
 import Image from 'next/image'
 
+import {Button} from '../Form/Form'
 
-const Anchor = ({text , className, nextPath , ...otherProps}) => {
+
+const Anchor = ({ text, className, nextPath, ...otherProps }) => {
     return (
         <li>
             <Link href={nextPath}>
@@ -17,6 +21,13 @@ const Anchor = ({text , className, nextPath , ...otherProps}) => {
 
 
 const Header = () => {
+    const user = useSelector(state => state.user)
+    const dispath = useDispatch()
+
+    const Logout = ()=>{
+        localStorage.removeItem('auth_token')
+        dispath(makeLogout())
+    }
     return (
         <header className='bg-white '>
             <div className='container md:px-0 px-2 mx-auto flex items-center justify-between py-2'>
@@ -29,7 +40,15 @@ const Header = () => {
                     <ul className='flex items-center gap-5'>
                         <Anchor text='Home' nextPath='/' />
                         <Anchor text='Add Task' nextPath='/task/add-new/' />
-                        <li><Link href='/auth/login/'><a className='bg-purple-500 hover:bg-purple-800 transition-all rounded py-1 px-2 text-white'>Login</a></Link></li>
+                        <li>{
+                            user.loggedIn ?
+                            <Button text='Logout' className='bg-red-500' onClick={()=>{Logout()}} />
+                                :
+                                <Link href='/auth/login/'>
+                                    <a className='bg-purple-500 hover:bg-purple-800 transition-all rounded py-1 px-2 text-white'>Login</a>
+                                </Link>
+                        }
+                        </li>
                     </ul>
                 </nav>
             </div>

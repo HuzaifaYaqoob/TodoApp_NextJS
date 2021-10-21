@@ -74,7 +74,7 @@ export const Button = ({ className, ...props }) => {
 const Form = ({ className, ...props }) => {
 
     return (
-        <form className={`w-full block py-4 px-2 ${className}`}>
+        <form className={`w-full block py-4 px-2 ${className}`} onSubmit={(event)=>{event.preventDefault()}}>
             {props.children}
         </form>
     )
