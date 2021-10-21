@@ -1,5 +1,7 @@
 import '../styles/globals.css'
 
+import { Provider } from 'react-redux'
+import store from '../redux/api/store'
 
 // Components 
 import AppBase from '../Components/AppBase/AppBase'
@@ -8,9 +10,11 @@ import AppBase from '../Components/AppBase/AppBase'
 const MyApp = ({ Component, pageProps }) => {
   return (
     <>
-      <AppBase>
-        <Component {...pageProps} />
-      </AppBase>
+      <Provider store={store}>
+        <AppBase>
+          <Component {...pageProps} />
+        </AppBase>
+      </Provider>
     </>
   )
 }

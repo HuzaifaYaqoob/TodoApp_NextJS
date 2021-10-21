@@ -17,7 +17,7 @@ const ColorDisplay = (props) =>{
 const Setting = () => {
     const [settingActive, setSettingActive] = useState(false)
     return (
-        <div className='fixed top-40 right-0 w-10 h-10 bg-white p-2 rounded-tl rounded-bl cursor-pointer hover:shadow-lg'>
+        <div className='fixed top-20 right-0 w-10 h-10 bg-white p-2 rounded-tl rounded-bl cursor-pointer hover:shadow-lg z-40'>
             <span className='block' onClick={()=>{setSettingActive(!settingActive)}}>
                 <Image src='/images/gear.png' className={'transform transition-all ' + (settingActive ? 'rotate-45' : 'rotate-90')} width={40} height={40} />
             </span>

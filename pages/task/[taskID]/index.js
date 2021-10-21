@@ -8,7 +8,7 @@ const View = () => {
     const router = useRouter()
     return (
         <div className='mx-auto max-w-lg w-full mt-5'>
-            <Button text='Go Back' className='my-0 bg-white transition-all hover:bg-purple-500 hover:text-white text-gray-700' onClick={() => { router.back() }} />
+            <Button text='Go Back' className='ml-4 md:ml-0 my-0 bg-white transition-all hover:bg-purple-500 hover:text-white text-gray-700' onClick={() => { router.back() }} />
             <ViewTask />
         </div>
     )
