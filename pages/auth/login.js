@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useRouter } from "next/router"
 import { apiBaseURL } from "../../redux/ApiVariables"
 
-import { makeLogin } from "../../redux/features/UserSlice"
+import { LoginUser } from "../../redux/features/UserSlice"
 
 import Link from "next/link"
 import Image from "next/image"
@@ -28,7 +28,7 @@ const Login = () => {
         return true
     }
 
-    const Login = () => {
+    const LoginView = () => {
         if (ValidateData()) {
             fetch(
                 apiBaseURL + '/api/auth/login/',
@@ -47,28 +47,27 @@ const Login = () => {
                 .then((response_data) => {
                     if (response_data.status_code == 200) {
                         const user = response_data.data.user
+                        console.log(user.auth_token)
                         localStorage.setItem(
                             'auth_token',
                             user.auth_token
                         )
-                        dispatch(makeLogin(user))
+                        dispatch(LoginUser(user))
                     }
                     else {
                         setError(response_data && response_data.details ? response_data.details : 'Something Went Wrong')
                     }
-
                 })
                 .catch((err) => {
                     setError(err && err.details ? err.details : 'Something Went Wrong')
                     console.log(err)
                 })
-            // dispatch(makeLogin({ data: 'huzaifa' }))
         }
     }
 
     useEffect(() => {
         { user.loggedIn && router.push('/') }
-    }, [])
+    }, [user.loggedIn])
 
     return (
         <>
@@ -94,7 +93,7 @@ const Login = () => {
                             error &&
                             <p className='text-xs text-red-600'>{error}</p>
                         }
-                        <Button text='Login' className='bg-purple-500 w-full hover:bg-purple-700 py-2' onClick={() => { Login() }} />
+                        <Button text='Login' className='bg-purple-500 w-full hover:bg-purple-700 py-2' onClick={() => { LoginView() }} />
                         <Link href='#' className='text-right text-sm block w-full'>Forgot Password?</Link>
                     </Form>
                 </div>

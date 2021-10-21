@@ -10,8 +10,8 @@ import Loader from "../Loader/Loader"
 
 
 // Actions Redux
-import { removeLoading  } from "../../redux/features/LoadingSlice"
-import { makeLogin } from "../../redux/features/UserSlice"
+import { removeLoading } from "../../redux/features/LoadingSlice"
+import { UpdateToken, updateUserData } from "../../redux/features/UserSlice"
 
 import { useSelector, useDispatch } from "react-redux"
 
@@ -19,54 +19,27 @@ const AppBase = (props) => {
     const router = useRouter()
     const dispatch = useDispatch()
 
-    const user = useSelector((state)=>{
-        return state.user
+    const myState = useSelector((state) => {
+        return state
     })
 
-    useEffect(()=>{
-        {!user.loggedIn ? router.push('/auth/login/') : router.push('/')}
-
-        const token = localStorage.getItem('auth_token')
-        if(token){
-            fetch(
-                apiBaseURL + '/api/auth/user/',
-                {
-                    headers:{
-                        'Authorization' : `Token ${token}`
-                    }
-                }
-            )
-            .then(response => response.json())
-            .then(response_data => {
-                if(response_data.status == 200){
-                    const user_data = response_data.user
-                    dispatch(makeLogin(user_data))
-                }
-                else{
-                    alert('Something Went Wrong | Internal Server Error')
-                }
-            })
-            .then(() => {
-                dispatch(removeLoading())
-            })
-            .catch(error => {
-                console.log('Internal Server Error')
-            })
-            
+    useEffect(() => {
+        dispatch(UpdateToken())
+        if(myState.user.auth_token){
+            dispatch(updateUserData())
         }
-        else{
-            router.push('/auth/login/')
+        { !myState.user.loggedIn ? router.push('/auth/login/') : router.push('/') }
+        setTimeout(() => {
             dispatch(removeLoading())
-        }
-    } , [user.loggedIn])
+        }, 0);
+
+    }, [myState.user.loggedIn])
 
 
     return (
         <>
             {
-                useSelector((state) => {
-                    return (state.Loading.loading && <Loader />)
-                })
+                myState.Loading.loading && <Loader />
             }
             <Head>
                 <link rel='icon' type='image/png' href='/images/logo.png' />
@@ -75,7 +48,7 @@ const AppBase = (props) => {
                 <Header />
                 <Setting />
                 {props.children}
-                <Footer/>
+                <Footer />
             </main>
         </>
     )

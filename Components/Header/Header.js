@@ -1,6 +1,6 @@
 
 import { useSelector, useDispatch } from 'react-redux'
-import { makeLogout } from '../../redux/features/UserSlice'
+import { LogoutUser } from '../../redux/features/UserSlice'
 
 import Link from 'next/link'
 import Image from 'next/image'
@@ -26,7 +26,7 @@ const Header = () => {
 
     const Logout = ()=>{
         localStorage.removeItem('auth_token')
-        dispath(makeLogout())
+        dispath(LogoutUser())
     }
     return (
         <header className='bg-white '>
