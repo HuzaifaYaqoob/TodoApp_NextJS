@@ -45,7 +45,6 @@ const ViewTask = () => {
 
     useEffect(() => {
         GetTodoItem()
-
     }, [myState.myTodos.todos, myState.user.auth_token])
 
 
@@ -64,6 +63,7 @@ const ViewTask = () => {
                         </div>
                         <h3 className='text-gray-800 text-xl font-medium'>{todo_item.title}</h3>
                         <p className='text-xs text-red-500'>Deadline : {todo_item.ends_date}</p>
+                        
                         <p className='text-sm text-gray-500 mt-2'>{todo_item.description}</p>
                         <Button text='Delete' className='mt-10 transition-all bg-red-500 hover:bg-red-700 text-white py-0.5' onClick={() => { DeleteTodo() }} />
                     </>

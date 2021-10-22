@@ -21,8 +21,6 @@ const TodosSlice = createSlice({
 
         removeTodoItem : (state, action)=>{
             let filtered_items = state.todos.filter((todo_item_ , ind)=>{
-                console.log(action.payload)
-                console.log(todo_item_.id)
                 if(action.payload != todo_item_.id){
                     return todo_item_
                 }

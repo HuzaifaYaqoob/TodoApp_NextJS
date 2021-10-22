@@ -19,16 +19,29 @@ const AddNewTaskForm = ({ data, ...props }) => {
     const [selectedimgURL, setSelectedimgURL] = useState(null)
 
 
-    const ValidateData = () => {
+    const ValidateDataPOST = () => {
         if (title_inp == '' || description_inp == '' || status_inp == '' || ends_date_inp == '' || selectedimg == null) {
             setErrorMessage('All Fields Are Required')
             return false
         }
         return true
     }
+    const ValidateDataPUT = () => {
+        if (title_inp == '' || description_inp == '' || status_inp == '' || ends_date_inp == '' ) {
+            setErrorMessage('All Fields Are Required')
+            return false
+        }
+        return true
+    }
+
+    const method_Validator = {
+        'POST' : ValidateDataPOST,
+        'PUT' : ValidateDataPUT
+    }
 
     const UploadData = () => {
-        if (ValidateData()) {
+        const request_method =  data && data.id && router.query.taskID ? 'PUT' : 'POST' 
+        if (method_Validator[request_method]()) {
             let form_data = new FormData()
             form_data.append('title', title_inp)
             form_data.append('description', description_inp)
@@ -39,7 +52,7 @@ const AddNewTaskForm = ({ data, ...props }) => {
             fetch(
                 apiBaseURL + `/api/todo/?todo_id=${router.query.taskID}`,
                 {
-                    method: data && data.id && router.query.taskID ? 'PUT' : 'POST',
+                    method: request_method,
                     headers: {
                         Authorization: `Token ${localStorage.getItem('auth_token')}`
                     },

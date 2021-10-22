@@ -26,12 +26,10 @@ const AppBase = (props) => {
 
     useEffect(() => {
 
-        setTimeout(() => {
-            if (!myState.user.auth_token) {
-                dispatch(UpdateToken())
-                router.push('/auth/login/')
-            }
-        }, 2000);
+        if (!myState.user.auth_token) {
+            dispatch(UpdateToken())
+            router.push('/auth/login/')
+        }
         setTimeout(() => {
             fetch(
                 apiBaseURL + '/api/auth/user/',
@@ -55,7 +53,7 @@ const AppBase = (props) => {
             dispatch(removeLoading())
         }, 0);
 
-    }, [myState.user.loggedIn, myState.user.auth_token])
+    }, [router.pathname, myState.user.loggedIn, myState.user.auth_token])
 
 
     return (
