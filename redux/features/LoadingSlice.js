@@ -14,9 +14,7 @@ const LoadingSlice = createSlice({
     reducers : {
         // Actions Here 
         removeLoading : (state)=>{
-            console.log('state')
-            console.log(state.loading = false)
-            console.log('state')
+            state.loading = false
         }
     }
 })

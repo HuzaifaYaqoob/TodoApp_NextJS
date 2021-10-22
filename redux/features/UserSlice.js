@@ -32,38 +32,11 @@ const UserSlice = createSlice(
                 if (token) {
                     state.auth_token = token
                     state.loggedIn = true
-                    updateUserData()
-                }
-                else{
-                    state.auth_token = null
-                    state.userData = null
-                    state.loggedIn = false
                 }
             },
 
-            updateUserData: (state) => {
-                console.log('updating')
-                fetch(
-                    apiBaseURL + '/api/auth/user/',
-                    {
-                        headers: {
-                            'Authorization': `Token ${state.auth_token}`
-                        }
-                    }
-                )
-                .then(response => response.json())
-                .then(response_data => {
-                    if (response_data.status == 200) {
-                        const user_data = response_data.user
-                        state.userData = user_data
-                    }
-                    else {
-                        alert('Something Went Wrong | Internal Server Error')
-                    }
-                })
-                .catch(error => {
-                    console.log('Internal Server Error')
-                })
+            updateUserData: (state, action) => {
+                state.userData = action.payload.data
             }
         }
     }

@@ -5,7 +5,7 @@ import { LogoutUser } from '../../redux/features/UserSlice'
 import Link from 'next/link'
 import Image from 'next/image'
 
-import {Button} from '../Form/Form'
+import { Button } from '../Form/Form'
 
 
 const Anchor = ({ text, className, nextPath, ...otherProps }) => {
@@ -24,7 +24,7 @@ const Header = () => {
     const user = useSelector(state => state.user)
     const dispath = useDispatch()
 
-    const Logout = ()=>{
+    const Logout = () => {
         localStorage.removeItem('auth_token')
         dispath(LogoutUser())
     }
@@ -40,19 +40,25 @@ const Header = () => {
                     <ul className='flex items-center gap-5'>
                         <Anchor text='Home' nextPath='/' />
                         <Anchor text='Add Task' nextPath='/task/add-new/' />
-                        <li>{
-                            user.loggedIn ?
-                            <Button text='Logout' className='bg-red-500' onClick={()=>{Logout()}} />
-                                :
-                                <Link href='/auth/login/'>
-                                    <a className='bg-purple-500 hover:bg-purple-800 transition-all rounded py-1 px-2 text-white'>Login</a>
-                                </Link>
+                        {
+                            user.loggedIn && user.userData ?
+                            < h3 > { user.userData.username }</h3>
+                            :
+                            <></>
                         }
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </header>
+                    <li>{
+                        user.loggedIn ?
+                            <Button text='Logout' className='bg-red-500' onClick={() => { Logout() }} />
+                            :
+                            <Link href='/auth/login/'>
+                                <a className='bg-purple-500 hover:bg-purple-800 transition-all rounded py-1 px-2 text-white'>Login</a>
+                            </Link>
+                    }
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        </header >
     )
 }
 

@@ -22,18 +22,38 @@ const AppBase = (props) => {
     const myState = useSelector((state) => {
         return state
     })
+    console.log(myState)
 
     useEffect(() => {
-        dispatch(UpdateToken())
-        if(myState.user.auth_token){
-            dispatch(updateUserData())
+
+        if (!myState.user.auth_token) {
+            dispatch(UpdateToken())
+            router.push('/auth/login/')
         }
-        { !myState.user.loggedIn ? router.push('/auth/login/') : router.push('/') }
         setTimeout(() => {
+            fetch(
+                apiBaseURL + '/api/auth/user/',
+                {
+                    headers: {
+                        'Authorization': `Token ${myState.user.auth_token}`
+                    }
+                }
+            )
+            .then(response => response.json())
+            .then(response_data => {
+                if (response_data.status_code == 200) {
+                    var user_data = response_data.user
+                    dispatch(updateUserData({data : user_data}))
+                }
+            })
+            .catch(error => {
+                console.log(error)
+                console.log('Internal Server Error')
+            })
             dispatch(removeLoading())
         }, 0);
 
-    }, [myState.user.loggedIn])
+    }, [myState.user.loggedIn, myState.user.auth_token])
 
 
     return (
