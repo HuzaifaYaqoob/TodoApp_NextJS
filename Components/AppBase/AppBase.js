@@ -26,10 +26,12 @@ const AppBase = (props) => {
 
     useEffect(() => {
 
-        if (!myState.user.auth_token) {
-            dispatch(UpdateToken())
-            router.push('/auth/login/')
-        }
+        setTimeout(() => {
+            if (!myState.user.auth_token) {
+                dispatch(UpdateToken())
+                router.push('/auth/login/')
+            }
+        }, 2000);
         setTimeout(() => {
             fetch(
                 apiBaseURL + '/api/auth/user/',
@@ -39,17 +41,17 @@ const AppBase = (props) => {
                     }
                 }
             )
-            .then(response => response.json())
-            .then(response_data => {
-                if (response_data.status_code == 200) {
-                    var user_data = response_data.user
-                    dispatch(updateUserData({data : user_data}))
-                }
-            })
-            .catch(error => {
-                console.log(error)
-                console.log('Internal Server Error')
-            })
+                .then(response => response.json())
+                .then(response_data => {
+                    if (response_data.status_code == 200) {
+                        var user_data = response_data.user
+                        dispatch(updateUserData({ data: user_data }))
+                    }
+                })
+                .catch(error => {
+                    console.log(error)
+                    console.log('Internal Server Error')
+                })
             dispatch(removeLoading())
         }, 0);
 

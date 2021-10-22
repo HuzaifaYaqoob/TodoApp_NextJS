@@ -20,7 +20,7 @@ const AddNewTaskForm = ({ data, ...props }) => {
 
 
     const ValidateData = () => {
-        if (title_inp == '' || description_inp == '' || status_inp == '' || ends_date_inp == '' || image_inp == null) {
+        if (title_inp == '' || description_inp == '' || status_inp == '' || ends_date_inp == '' || selectedimg == null) {
             setErrorMessage('All Fields Are Required')
             return false
         }
@@ -49,6 +49,9 @@ const AddNewTaskForm = ({ data, ...props }) => {
                 .then(response => response.json())
                 .then(response_data => {
                     console.log(response_data)
+                    if(response_data.status_code == 200){
+                        router.push('/')
+                    }
                 })
                 .catch(error => {
                     console.log(error)
@@ -57,6 +60,7 @@ const AddNewTaskForm = ({ data, ...props }) => {
     }
 
     const SelectImage = (event) => {
+        console.log('called')
         setselected(event)
         setSelectedimgURL(URL.createObjectURL(event.target.files[0]))
     }
