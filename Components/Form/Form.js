@@ -30,24 +30,28 @@ export const TextArea = ({ className, Label, ...props }) => {
     )
 }
 
-export const DropDownItem = ({className , data , activeItem_state , ...props}) => {
-    const {active_item , setActive_Item} = activeItem_state
+export const DropDownItem = ({className , text , setActive_Item , ...props}) => {
     
     return (
-        <p onClick={()=>{setActive_Item(data)}} className={`bg-gray-300 rounded mb-1 py-1 px-2 transition-all cursor-pointer hover:text-white ${className}`}>{data.text}</p>
+        <p onClick={()=>{setActive_Item(text)}} className={`rounded mb-1 py-1 px-2 transition-all cursor-pointer bg-purple-500 hover:bg-purple-600 text-white ${className}`}>{text}</p>
     )
 }
 
-export const DropDown = ({activeItem,...props}) => {
+export const DropDown = ({active, data,...props}) => {
+    const [active_Item, setActiveItem] = active
     const [dropDownActive, setDropDownActive] = useState(false)
     
     return (
         <div className='relative w-full flex-1'>
-            <div className={`py-1 px-2 text-white rounded w-full cursor-pointer ` + (activeItem.bg_color ? `bg-${activeItem.bg_color}-500` : 'bg-gray-500')} onClick={() => { setDropDownActive(!dropDownActive) }}>
-                <p>{activeItem.text}</p>
+            <div className='py-1 px-2 text-white rounded w-full cursor-pointer bg-gray-500' onClick={() => { setDropDownActive(!dropDownActive) }}>
+                <p>{active_Item}</p>
             </div>
             <div className={'absolute top-full left-0 right-0 transform translate-y-1 rounded shadow-lg bg-white py-1 px-2 ' + (dropDownActive ? 'block' : 'hidden')}>
-                {props.children}
+                {
+                    data.map((item, ind)=>{
+                        return <DropDownItem text={item} key={ind} setActive_Item={setActiveItem} />
+                    })
+                }
             </div>
         </div>
     )

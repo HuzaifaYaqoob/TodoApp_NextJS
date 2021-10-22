@@ -13,12 +13,15 @@ const LoadingSlice = createSlice({
     initialState,
     reducers : {
         // Actions Here 
+        startLoading : (state)=>{
+            state.loading = true
+        },
         removeLoading : (state)=>{
             state.loading = false
         }
     }
 })
 
-export const {removeLoading} = LoadingSlice.actions
+export const {removeLoading , startLoading} = LoadingSlice.actions
 
 export default LoadingSlice.reducer

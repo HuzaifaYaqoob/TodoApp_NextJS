@@ -9,7 +9,7 @@ const ViewTask = () => {
         <div className='bg-white rounded-lg w-11/12 mx-auto mt-3 py-2 px-3 border-l-4 border-red-500'>
             <div className='flex items-center justify-between'>
                 <p className='text-gray-500 text-xs mb-1'>18-Oct-2021</p>
-                <Button text='Edit' className='my-0 transition-all bg-green-500 hover:bg-green-700 text-white py-0.5' onClick={() => { router.push('/task/123456/edit/') }} />
+                <Button text='Edit' className='my-0 transition-all bg-green-500 hover:bg-green-700 text-white py-0.5' onClick={() => { router.push(`/task/${router.query.taskID}/edit/`) }} />
             </div>
             <h3 className='text-gray-800 font-medium'>Please Complete Next JS App With Django Backend</h3>
             <p className='text-xs text-red-500'>Deadline : 19-Oct-2021</p>
