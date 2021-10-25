@@ -83,12 +83,12 @@ const Home = () => {
                   }
                   return item.status == router.query.status
                 }).map((item, ind) => {
-                  return <Todo data={item} key={ind} className='border-purple-500' />
+                  return <Todo data={item} key={ind} />
                 })
                 :
                 myState.myTodos.todos.length > 0 ?
                   myState.myTodos.todos.map((item, ind) => {
-                    return <Todo data={item} key={ind} className='border-purple-500' />
+                    return <Todo data={item} key={ind} />
                   })
                   :
                   myState.myTodos.todos_length == 0 ? 

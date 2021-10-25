@@ -9,6 +9,14 @@ const Todo = ({ className, data, ...props }) => {
     const dispatch = useDispatch()
     const router = useRouter()
 
+    const StatusColors = {
+        ToDo : 'red',
+        Doing:'yellow',
+        'In Progress' : 'gray',
+        Done : 'purple',
+        Completed : 'green'
+    }
+
     const DeleteTodo = () => {
         fetch(
             apiBaseURL + `/api/todo/?todo_id=${data.id}`,
@@ -30,7 +38,7 @@ const Todo = ({ className, data, ...props }) => {
     }
 
     return (
-        <div className={`group flex items-center justify-between gap-3 bg-white mb-4 hover:shadow-md transition-all cursor-pointer rounded-md p-3 border-l-4 ${className}`}>
+        <div className={`group flex items-center justify-between gap-3 bg-white mb-4 hover:shadow-md transition-all cursor-pointer rounded-md p-3 border-l-4 border-${StatusColors[data.status]}-500 ${className}`}>
             <span className='w-10 h-10 rounded-full bg-gray-300 bg-cover bg-center bg-no-repeat' style={{ backgroundImage: `url('${apiBaseURL + data.image}')` }}></span>
             <div className='flex-1'>
                 <h3 className='flex-1 mb-1 group-hover:text-gray-900 text-gray-600 font-semibold' onClick={() => { router.push(`/task/${data.id}/`) }}>
