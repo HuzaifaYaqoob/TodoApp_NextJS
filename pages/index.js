@@ -91,6 +91,9 @@ const Home = () => {
                     return <Todo data={item} key={ind} className='border-purple-500' />
                   })
                   :
+                  myState.myTodos.todos_length == 0 ? 
+                  <h3>No More Items</h3>
+                  :
                   <h3>Loading more items...</h3>
             }
           </InfiniteScroll>
