@@ -4,22 +4,17 @@ import { useRouter } from "next/router"
 
 import AddNewTaskForm from "./add-new-task-form"
 
-import { useSelector , useDispatch } from "react-redux"
-import { startLoading } from "../../redux/features/LoadingSlice"
 import { useState, useEffect } from "react"
 
 
-const EditTask = () => {
+const EditTask = (props) => {
     const router = useRouter()
-    const dispatch = useDispatch()
     
     const [todo_item, setTodoItem] = useState(null)
-    let myState = useSelector(state => { return state })
-
-    console.log(todo_item)
+    let myState = props
 
     const GetTodoItem = () => {
-        myState.myTodos.todos.filter((todo_item, ind) => {
+        myState.todos.todos.filter((todo_item, ind) => {
             if (todo_item.id == router.query.taskID) {
                 setTodoItem(todo_item)
             }
@@ -29,7 +24,7 @@ const EditTask = () => {
 
     useEffect(() => {
         GetTodoItem()
-    }, [myState.myTodos.todos])
+    }, [myState.todos.todos])
 
 
 
@@ -43,7 +38,7 @@ const EditTask = () => {
                     todo_item ?
                     <AddNewTaskForm data={todo_item} />
                     :
-                    ()=>{dispatch(startLoading())}
+                    ()=>{props.startLoading()}
                 }
             </div>
         </div>

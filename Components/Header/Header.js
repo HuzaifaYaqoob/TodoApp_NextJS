@@ -1,6 +1,4 @@
 
-import { useSelector, useDispatch } from 'react-redux'
-import { LogoutUser } from '../../redux/features/UserSlice'
 
 import Link from 'next/link'
 import Image from 'next/image'
@@ -20,13 +18,12 @@ const Anchor = ({ text, className, nextPath, ...otherProps }) => {
 
 
 
-const Header = () => {
-    const user = useSelector(state => state.user)
-    const dispath = useDispatch()
+const Header = (props) => {
+    const user = props.user
 
     const Logout = () => {
         localStorage.removeItem('auth_token')
-        dispath(LogoutUser())
+        props.logoutUser()
     }
     return (
         <header className='bg-white '>

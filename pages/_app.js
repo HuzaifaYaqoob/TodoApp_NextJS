@@ -1,21 +1,23 @@
 import '../styles/globals.css'
 
 
+import { createStore } from 'redux'
 import { Provider } from 'react-redux'
-import store from '../redux/api/store'
+import rootReducers from '../redux/service/reducers/index'
 
 // Components 
-import AppBase from '../Components/AppBase/AppBase'
+import AppBaseContainer from '../redux/service/containers/AppBaseContainer'
 
+
+const store = createStore(rootReducers)
 
 const MyApp = ({ Component, pageProps }) => {
-
   return (
     <>
       <Provider store={store}>
-        <AppBase>
+        <AppBaseContainer>
           <Component {...pageProps} />
-        </AppBase>
+        </AppBaseContainer>
       </Provider>
     </>
   )

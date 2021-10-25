@@ -7,14 +7,14 @@ import { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { removeTodoItem } from "../../redux/features/TodosSlice"
 
-const ViewTask = () => {
+const ViewTask = (props) => {
+    console.log(props)
     const router = useRouter()
-    const dispatch = useDispatch()
-    const myState = useSelector(state => { return state })
+    const myState = props
 
     const [todo_item, setTodoItem] = useState(null)
     const GetTodoItem = () => {
-        myState.myTodos.todos.filter((todo_item, ind) => {
+        myState.todos.todos.filter((todo_item, ind) => {
             if (todo_item.id == router.query.taskID) {
                 setTodoItem(todo_item)
             }
@@ -33,7 +33,6 @@ const ViewTask = () => {
         ).then(respose => respose.json())
         .then(response_data =>{
             if(response_data.status_code == 200){
-                dispatch(removeTodoItem(todo_item.id))
                 router.back()
             }
         })
@@ -42,10 +41,9 @@ const ViewTask = () => {
         })
     }
 
-
     useEffect(() => {
         GetTodoItem()
-    }, [myState.myTodos.todos, myState.user.auth_token])
+    }, [myState.todos.todos, myState.user.auth_token])
 
 
 
