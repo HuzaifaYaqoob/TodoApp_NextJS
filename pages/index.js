@@ -1,3 +1,4 @@
+import InfiniteScroll from "react-infinite-scroll-component"
 
 import { useEffect, useState } from "react"
 import { apiBaseURL } from "../redux/ApiVariables"
@@ -19,9 +20,9 @@ const Home = () => {
   })
 
 
-  const getTodoItems = () => {
+  const getTodoItems = (_limit) => {
     fetch(
-      apiBaseURL + `/api/todo/`,
+      apiBaseURL + `/api/todo/?_limit=${_limit}`,
       {
         headers: {
           'Authorization': `Token ${localStorage.getItem('auth_token')}`
@@ -31,7 +32,7 @@ const Home = () => {
       .then(response => response.json())
       .then(response_data => {
         if (response_data.status_code == 200) {
-          dispatch(UpdateTodos({ data: response_data.data }))
+          dispatch(UpdateTodos({ data: response_data.data, todos_total_length: response_data.total_length }))
         }
 
       })
@@ -40,29 +41,16 @@ const Home = () => {
       })
   }
 
-  const LoadMore = () => {
-    getTodoItems(items_Limit + 10)
+  const FetchMoreData = () => {
+    getTodoItems(myState.myTodos.todos.length + 1)
   }
 
-  const Scrolling = () => {
-    if ((myState.myTodos.todos.length % 10) == 0) {
 
-      const window_height = window.innerHeight
-      const scroll_top = document.documentElement.scrollTop
-      const scroll_height = document.scrollingElement.scrollHeight
-      if (window_height + scroll_top == scroll_height) {
-        setTimeout(() => {
-          LoadMore()
-        }, 3000);
-      }
-    }
 
-  }
 
   useEffect(() => {
-    // window.addEventListener('scroll', () => { Scrolling() })
     if (myState.user.auth_token) {
-      getTodoItems()
+      getTodoItems(10)
     }
   }, [])
 
@@ -74,24 +62,38 @@ const Home = () => {
       <div className='my-10'>
         <div className='w-11/12 max-w-xl mx-auto'>
           <Filters />
-          {
-            router.query.status ?
-              myState.myTodos.todos.filter(item => {
-                if (router.query.status == 'All') {
-                  return true
-                }
-                return item.status == router.query.status
-              }).map((item, ind) => {
-                return <Todo data={item} key={ind} className='border-purple-500' />
-              })
-              :
-              myState.myTodos.todos.length > 0 ?
-                myState.myTodos.todos.map((item, ind) => {
+
+          <InfiniteScroll
+            dataLength={myState.myTodos.todos.length} //This is important field to render the next data
+            next={FetchMoreData}
+            hasMore={myState.myTodos.todos_length > myState.myTodos.todos.length ? true : false}
+            loader={<h4>Loading...</h4>}
+            endMessage={
+              <p style={{ textAlign: 'center' }}>
+                <b>Yay! You have seen it all</b>
+              </p>
+            }
+
+          >
+            {
+              router.query.status ?
+                myState.myTodos.todos.filter(item => {
+                  if (router.query.status == 'All') {
+                    return true
+                  }
+                  return item.status == router.query.status
+                }).map((item, ind) => {
                   return <Todo data={item} key={ind} className='border-purple-500' />
                 })
                 :
-                <h3>Loading...</h3>
-          }
+                myState.myTodos.todos.length > 0 ?
+                  myState.myTodos.todos.map((item, ind) => {
+                    return <Todo data={item} key={ind} className='border-purple-500' />
+                  })
+                  :
+                  <h3>Loading more items...</h3>
+            }
+          </InfiniteScroll>
         </div>
       </div>
     </>

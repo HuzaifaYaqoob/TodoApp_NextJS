@@ -22,10 +22,8 @@ const AppBase = (props) => {
     const myState = useSelector((state) => {
         return state
     })
-    console.log(myState)
 
     useEffect(() => {
-
         if (!myState.user.auth_token) {
             dispatch(UpdateToken())
             router.push('/auth/login/')

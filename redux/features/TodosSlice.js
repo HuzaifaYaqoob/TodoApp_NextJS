@@ -7,6 +7,7 @@ import { apiBaseURL } from "../ApiVariables";
 
 const initialState = {
     todos : [],
+    todos_length : 0
 
 }
 
@@ -17,6 +18,7 @@ const TodosSlice = createSlice({
     reducers:{
         UpdateTodos : (state, action)=>{
             state.todos = action.payload.data
+            state.todos_length = action.payload.todos_total_length
         },
 
         removeTodoItem : (state, action)=>{
