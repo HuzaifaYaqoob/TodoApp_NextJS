@@ -24,7 +24,7 @@ const LoginPage = (props) => {
             return false
         }
         return true
-    }
+    } 
 
     const LoginView = () => {
         if (ValidateData()) {

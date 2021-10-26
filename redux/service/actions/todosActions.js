@@ -9,3 +9,10 @@ export const UpdateTodos = (data) =>{
     }
 }
 
+
+export const removeTodoItem = (item_id) =>{
+    return{
+        type:'REMOVE_TODO_ITEM',
+        todos_id : item_id
+    }
+}

@@ -4,8 +4,6 @@ import { apiBaseURL } from "../../redux/ApiVariables"
 import { Button } from "../Form/Form"
 
 import { useEffect, useState } from "react"
-import { useSelector, useDispatch } from "react-redux"
-import { removeTodoItem } from "../../redux/features/TodosSlice"
 
 const ViewTask = (props) => {
     console.log(props)
@@ -33,6 +31,7 @@ const ViewTask = (props) => {
         ).then(respose => respose.json())
         .then(response_data =>{
             if(response_data.status_code == 200){
+                props.removeTodoItemHanlder(todo_item.id)
                 router.back()
             }
         })
